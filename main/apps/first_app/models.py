@@ -10,7 +10,7 @@ class CourseManager(models.Manager):
         errors = {}
         course = Course.objects.filter(name = postData['name'])
 
-        print course
+        print(course)
         if len(course) > 0:
             errors['exists'] = "Course already exists"
         if len(postData['name']) < 6:
@@ -30,5 +30,5 @@ class Course(models.Model):
 class Comment(models.Model):
     comment = models.CharField(max_length=255)
     author = models.CharField(max_length=45)
-    course = models.ForeignKey(Course, related_name = "comments")
+    course = models.ForeignKey(Course, related_name = "comments", on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now = True)

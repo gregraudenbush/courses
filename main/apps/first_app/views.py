@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, HttpResponse, redirect
-from models import *
+from .models import *
 from django.contrib import messages
 import bcrypt
 
@@ -16,7 +16,7 @@ def new(request):
 
         errors = Course.objects.Validator(request.POST)
         if len(errors):
-            for tag, error in errors.iteritems():
+            for tag, error in errors.items():
                 messages.error(request, error, extra_tags=tag)
         else:
             Course.objects.create(name = request.POST['name'], description = request.POST['description'])
@@ -32,7 +32,7 @@ def confirmDelete(request, id):
         "course" : Course.objects.get(id = id)
 
     }
-    print course
+    print(course)
     return render(request, "first_app/delete.html", context)
 
 
@@ -58,8 +58,7 @@ def addcomment(request):
         id = request.POST['courseid']
         course = Course.objects.get(id = id)
         
-        print request.POST['author']
-        print request.POST['comment']
+       
     comment = Comment.objects.create( comment= request.POST['comment'], author = request.POST['author'], course = course)
-    print comment
+  
     return redirect("/course/"+ id)
